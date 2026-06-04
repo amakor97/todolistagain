@@ -4,6 +4,7 @@ import TasksList from "./components/TasksList/TasksList";
 import Button from "./components/Button/Button";
 
 import { testTask1 } from "./tests/PoC/task";
+import { nanoid } from "nanoid";
 
 function App() {
   const [store, setStore] = useState<Store>({
@@ -13,7 +14,8 @@ function App() {
   function addTask() {
     setStore((store) => {
       const newTasksList = new Map(store.tasksList);
-      newTasksList.set("1", testTask1);
+      newTasksList.set(nanoid(), testTask1);
+      console.log(newTasksList.values())
       return {
         ...store,
         tasksList: newTasksList
@@ -24,7 +26,7 @@ function App() {
   return (
     <div>
       <TasksList tasks={Array.from(store.tasksList.values())}/>
-      <Button />
+      <Button handleClick={addTask}/>
     </div>
   );
 }
