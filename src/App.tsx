@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Store } from "./types/Store";
-import Task from "./components/Task/Task";
+import TasksList from "./components/TasksList/TasksList";
 import Button from "./components/Button/Button";
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
 
   return (
     <div>
-      <Task />
+      <TasksList/>
       <Button />
     </div>
   );
