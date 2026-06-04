@@ -1,5 +1,5 @@
 import type { Task } from "./Task";
 
 export type Store = {
-  tasksList: Task[]
+  tasksList: Map<string, Task>
 }
