@@ -1,3 +1,17 @@
 .task {
+  padding: 8px;
+
   border: 1px solid black;
+}
+
+.title {
+  margin: 0;
+}
+
+.desc {
+  margin: 0;
+}
+
+.status {
+  margin: 0;
 }
