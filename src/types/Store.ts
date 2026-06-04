@@ -1,5 +1,5 @@
-import type { Task } from "./Task";
+import type { TaskType } from "./TaskType";
 
 export type Store = {
-  tasksList: Map<string, Task>
+  tasksList: Map<string, TaskType>
 }

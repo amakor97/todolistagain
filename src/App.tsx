@@ -23,7 +23,7 @@ function App() {
 
   return (
     <div>
-      <TasksList />
+      <TasksList tasks={Array.from(store.tasksList.values())}/>
       <Button />
     </div>
   );

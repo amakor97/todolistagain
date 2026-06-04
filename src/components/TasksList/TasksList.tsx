@@ -1,7 +1,13 @@
 import Task from "../Task/Task"
 
-function TasksList() {
+import type { TaskType } from "../../types/TaskType";
+
+function TasksList({tasks}: {tasks: TaskType[]}) {
+
   return <section>
+    {tasks.map((task) => {
+      return <Task/>
+    })}
     <Task/>
   </section>
 }
