@@ -1,7 +1,17 @@
 type handler = () => void;
 
-function Button({ handleClick }: { handleClick: handler }) {
-  return <button onClick={handleClick}>Button</button>;
+function Button({
+  handleClick,
+  btnText
+}: {
+  handleClick: handler;
+  btnText?: string;
+}) {
+  return (
+    <button onClick={handleClick} type="button">
+      {btnText ?? "Button"}
+    </button>
+  );
 }
 
 export default Button;

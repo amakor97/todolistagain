@@ -1,10 +1,9 @@
 import { useState } from "react";
 import type { Store } from "./types/Store";
-import TasksList from "./components/TasksList/TasksList";
-import Button from "./components/Button/Button";
-
-import { testTask1 } from "./tests/PoC/task";
 import { nanoid } from "nanoid";
+import TasksList from "./components/TasksList/TasksList";
+import AddingForm from "./components/AddingForm/AddingForm";
+import { testTask1 } from "./tests/PoC/task";
 
 const initialState: Store = {
   tasksList: new Map(),
@@ -18,7 +17,6 @@ function App() {
     setStore((store) => {
       const newTasksList = new Map(store.tasksList);
       newTasksList.set(nanoid(), testTask1);
-      console.log(newTasksList.values());
       return {
         ...store,
         tasksList: newTasksList
@@ -29,7 +27,7 @@ function App() {
   return (
     <div>
       <TasksList tasks={Array.from(store.tasksList.values())} />
-      <Button handleClick={addTask} />
+      <AddingForm submitFunc={addTask} />
     </div>
   );
 }
