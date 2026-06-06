@@ -1,4 +1,4 @@
-const validStatuses = ["awaiting", "inProgress", "completed"] as const;
+const validStatuses = ["none", "awaiting", "inProgress", "completed"] as const;
 
 export type Status = (typeof validStatuses)[number];
 
