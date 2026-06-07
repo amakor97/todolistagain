@@ -1,4 +1,4 @@
-type handler = () => void;
+type handler = (...args: unknown[]) => unknown;
 
 function Button({
   handleClick,
