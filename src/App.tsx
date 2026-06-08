@@ -4,6 +4,7 @@ import TasksList from "./components/TasksList/TasksList";
 import AddingForm from "./components/AddingForm/AddingForm";
 import type { TaskType } from "./types/TaskType";
 import type { Status } from "./types/Status";
+import Button from "./components/Button/Button";
 
 const initialState: Store = {
   tasksList: new Map(),
@@ -23,6 +24,8 @@ function App() {
         tasksList: newTasksList
       };
     });
+
+    changeMode("idle");
   }
 
   function deleteTask(id: string): void {
@@ -56,6 +59,15 @@ function App() {
     });
   }
 
+  function changeMode(mode: Store["appStatus"]): void {
+    setStore((store) => {
+      return {
+        ...store,
+        appStatus: mode
+      };
+    });
+  }
+
   return (
     <div>
       <TasksList
@@ -63,7 +75,14 @@ function App() {
         deleteFunc={deleteTask}
         changeFunc={changeStatus}
       />
-      <AddingForm submitFunc={addTask} />
+      {store.appStatus === "adding" && <AddingForm submitFunc={addTask} />}
+
+      <Button
+        btnText="Add"
+        handleClick={() => {
+          changeMode("adding");
+        }}
+      />
     </div>
   );
 }
