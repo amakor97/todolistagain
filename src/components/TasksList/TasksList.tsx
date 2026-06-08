@@ -6,7 +6,7 @@ function TasksList({ tasks }: { tasks: TaskType[] }) {
   return (
     <section>
       {tasks.map((task) => {
-        return <Task task={task} />;
+        return <Task task={task} key={task.id} />;
       })}
     </section>
   );
