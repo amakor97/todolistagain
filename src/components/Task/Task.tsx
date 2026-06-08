@@ -3,15 +3,19 @@ import type { TaskType } from "../../types/TaskType";
 import Styles from "./Task.module.css";
 
 import Button from "../Button/Button";
+import type { Status } from "../../types/Status";
 
 type deleteTask = (id: string) => void;
+type changeStatus = (id: string, value: Status) => void;
 
 function Task({
   task,
-  deleteFunc
+  deleteFunc,
+  changeFunc
 }: {
   task: TaskType;
   deleteFunc: deleteTask;
+  changeFunc: changeStatus;
 }) {
   return (
     <article className={Styles.task}>
@@ -22,6 +26,24 @@ function Task({
         btnText="Delete"
         handleClick={() => {
           deleteFunc(task.id);
+        }}
+      />
+      <Button
+        btnText="Awaiting"
+        handleClick={() => {
+          changeFunc(task.id, "awaiting");
+        }}
+      />
+      <Button
+        btnText="In progress"
+        handleClick={() => {
+          changeFunc(task.id, "inProgress");
+        }}
+      />
+      <Button
+        btnText="Completed"
+        handleClick={() => {
+          changeFunc(task.id, "completed");
         }}
       />
     </article>
