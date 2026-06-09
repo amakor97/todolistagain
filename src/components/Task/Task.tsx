@@ -7,15 +7,18 @@ import type { Status } from "../../types/Status";
 
 type deleteTask = (id: string) => void;
 type changeStatus = (id: string, value: Status) => void;
+type editTask = (id: string) => void;
 
 function Task({
   task,
   deleteFunc,
-  changeFunc
+  changeFunc,
+  editFunc
 }: {
   task: TaskType;
   deleteFunc: deleteTask;
   changeFunc: changeStatus;
+  editFunc: editTask;
 }) {
   return (
     <article className={Styles.task}>
@@ -44,6 +47,12 @@ function Task({
         btnText="Completed"
         handleClick={() => {
           changeFunc(task.id, "completed");
+        }}
+      />
+      <Button
+        btnText="Edit"
+        handleClick={() => {
+          editFunc(task.id);
         }}
       />
     </article>

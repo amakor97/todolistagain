@@ -8,7 +8,8 @@ import Button from "./components/Button/Button";
 
 const initialState: Store = {
   tasksList: new Map(),
-  appStatus: "idle"
+  appStatus: "idle",
+  editableTask: null
 };
 
 function App() {
@@ -68,21 +69,44 @@ function App() {
     });
   }
 
+  function editTask(id: string): void {
+    setStore((store) => {
+      const newTasksList = new Map(store.tasksList);
+      const editedTask = newTasksList.get(id);
+      if (!editedTask) {
+        throw new Error("There is no task with such id");
+      }
+
+      return { ...store, appStatus: "editing", editableTask: editedTask };
+    });
+  }
+
   return (
     <div>
-      <TasksList
-        tasks={Array.from(store.tasksList.values())}
-        deleteFunc={deleteTask}
-        changeFunc={changeStatus}
-      />
-      {store.appStatus === "adding" && <AddingForm submitFunc={addTask} />}
+      {store.appStatus === "idle" && (
+        <TasksList
+          tasks={Array.from(store.tasksList.values())}
+          deleteFunc={deleteTask}
+          changeFunc={changeStatus}
+          editFunc={editTask}
+        />
+      )}
+      {(store.appStatus === "adding" || store.appStatus === "editing") && (
+        <AddingForm
+          submitFunc={addTask}
+          editableTask={store.editableTask}
+          appMode={store.appStatus}
+        />
+      )}
 
-      <Button
-        btnText="Add"
-        handleClick={() => {
-          changeMode("adding");
-        }}
-      />
+      {store.appStatus === "idle" && (
+        <Button
+          btnText="Add"
+          handleClick={() => {
+            changeMode("adding");
+          }}
+        />
+      )}
     </div>
   );
 }

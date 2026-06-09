@@ -3,17 +3,20 @@ import Task from "../Task/Task";
 
 type deleteTask = (id: string) => void;
 type changeStatus = (id: string, value: Status) => void;
+type editTask = (id: string) => void;
 
 import type { TaskType } from "../../types/TaskType";
 
 function TasksList({
   tasks,
   deleteFunc,
-  changeFunc
+  changeFunc,
+  editFunc
 }: {
   tasks: TaskType[];
   deleteFunc: deleteTask;
   changeFunc: changeStatus;
+  editFunc: editTask;
 }) {
   return (
     <section>
@@ -23,6 +26,7 @@ function TasksList({
             task={task}
             deleteFunc={deleteFunc}
             changeFunc={changeFunc}
+            editFunc={editFunc}
             key={task.id}
           />
         );

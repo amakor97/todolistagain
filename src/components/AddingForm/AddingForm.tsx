@@ -1,6 +1,8 @@
 import type { TaskType } from "../../types/TaskType";
 import { isValidStatus } from "../../types/Status";
 
+import type { Store } from "../../types/Store";
+
 type handler = (newTask: TaskType) => void;
 
 import Styles from "./AddingForm.module.css";
@@ -8,24 +10,37 @@ import Styles from "./AddingForm.module.css";
 import Button from "../Button/Button";
 import { nanoid } from "nanoid";
 
-function AddingForm({ submitFunc }: { submitFunc: handler }) {
+function AddingForm({
+  submitFunc,
+  editableTask,
+  appMode
+}: {
+  submitFunc: handler;
+  editableTask?: TaskType | null;
+  appMode: Store["appStatus"];
+}) {
   function createTask(): TaskType {
     const form = document.getElementById("newTaskForm");
     if (!(form instanceof HTMLFormElement)) {
       throw new Error();
     }
-    const newTask: TaskType = {
-      id: nanoid(),
-      name: "",
-      description: "",
-      status: "none"
-    };
+    const newTask: TaskType = editableTask
+      ? {
+          id: editableTask.id,
+          name: editableTask.name,
+          description: editableTask.description,
+          status: editableTask.status
+        }
+      : {
+          id: nanoid(),
+          name: "",
+          description: "",
+          status: "none"
+        };
 
     const nameInput = form.querySelector("input[name='newTaskName']");
     const descInput = form.querySelector("input[name='newTaskDescription']");
-    const statusInput = form.querySelector(
-      "input[name='taskStatus']:checked"
-    );
+    const statusInput = form.querySelector("input[name='taskStatus']:checked");
 
     if (!(nameInput instanceof HTMLInputElement)) {
       newTask.name = "New task";
@@ -52,8 +67,18 @@ function AddingForm({ submitFunc }: { submitFunc: handler }) {
 
   return (
     <form className={Styles.form} id="newTaskForm">
-      <input type="text" placeholder="Name" id="newTaskName" name="newTaskName"/>
-      <textarea id="newTaskDescription" placeholder="Description" name="newTaskDescription"></textarea>
+      <input
+        type="text"
+        placeholder="Name"
+        id="newTaskName"
+        name="newTaskName"
+        defaultValue={editableTask ? editableTask.name : ""}
+      />
+      <textarea
+        id="newTaskDescription"
+        placeholder="Description"
+        name="newTaskDescription"
+      ></textarea>
       <input type="radio" name="newTaskStatus" value="awaiting" />
       <input type="radio" name="newTaskStatus" value="inProgress" />
       <input type="radio" name="newTaskStatus" value="completed" />
@@ -61,7 +86,7 @@ function AddingForm({ submitFunc }: { submitFunc: handler }) {
         handleClick={() => {
           submitFunc(createTask());
         }}
-        btnText={"Add task"}
+        btnText={appMode === "adding" ? "Add task" : "Submit changes"}
       />
     </form>
   );
