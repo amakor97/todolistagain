@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Store } from "./types/Store";
 import TasksList from "./components/TasksList/TasksList";
 import AddingForm from "./components/AddingForm/AddingForm";
 import type { TaskType } from "./types/TaskType";
 import type { Status } from "./types/Status";
 import Button from "./components/Button/Button";
+import { testTask1 } from "./tests/PoC/task";
 
 const initialState: Store = {
   tasksList: new Map(),
@@ -14,6 +15,23 @@ const initialState: Store = {
 
 function App() {
   const [store, setStore] = useState<Store>(initialState);
+
+  useEffect(() => {
+    (() => {
+      setStore((store) => {
+        const newTasksList = new Map(store.tasksList);
+        if (newTasksList.has(testTask1.id)) {
+          return store;
+        }
+        newTasksList.set(testTask1.id, testTask1);
+
+        return {
+          ...store,
+          tasksList: newTasksList
+        };
+      });
+    })();
+  }, []);
 
   function addTask(newTask: TaskType): void {
     setStore((store) => {
@@ -30,6 +48,8 @@ function App() {
   }
 
   function deleteTask(id: string): void {
+    console.log(id);
+
     setStore((store) => {
       const newTasksList = new Map(store.tasksList);
       newTasksList.delete(id);
