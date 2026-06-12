@@ -6,3 +6,5 @@ export const testTask1: TaskType = {
   description: "Test description 1",
   status: "awaiting"
 };
+
+export const stringedTestTask1: string = JSON.stringify(testTask1);

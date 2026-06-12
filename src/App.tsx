@@ -5,7 +5,7 @@ import AddingForm from "./components/AddingForm/AddingForm";
 import type { TaskType } from "./types/TaskType";
 import type { Status } from "./types/Status";
 import Button from "./components/Button/Button";
-import { testTask1 } from "./tests/PoC/task";
+import { fetchData } from "./api/middleware";
 
 const initialState: Store = {
   tasksList: new Map(),
@@ -17,20 +17,14 @@ function App() {
   const [store, setStore] = useState<Store>(initialState);
 
   useEffect(() => {
-    (() => {
-      setStore((store) => {
-        const newTasksList = new Map(store.tasksList);
-        if (newTasksList.has(testTask1.id)) {
-          return store;
-        }
-        newTasksList.set(testTask1.id, testTask1);
+    async function setData(): Promise<void> {
+      const data = await fetchData();
+      if (data) {
+        setStore(() => data);
+      }
+    }
 
-        return {
-          ...store,
-          tasksList: newTasksList
-        };
-      });
-    })();
+    void setData();
   }, []);
 
   function addTask(newTask: TaskType): void {
