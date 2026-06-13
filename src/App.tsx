@@ -16,6 +16,8 @@ const initialState: Store = {
 function App() {
   const [store, setStore] = useState<Store>(initialState);
 
+  console.log(store.editableTask);
+
   useEffect(() => {
     async function setData(): Promise<void> {
       const data = await fetchData();
@@ -35,7 +37,8 @@ function App() {
 
             const newStore = {
         ...store,
-        tasksList: newTasksList
+        tasksList: newTasksList,
+      editableTask: null
       }
 
       

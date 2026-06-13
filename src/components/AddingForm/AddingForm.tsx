@@ -19,7 +19,11 @@ function AddingForm({
   editableTask?: TaskType | null;
   appMode: Store["appStatus"];
 }) {
+  console.log(appMode, editableTask);
   function createTask(): TaskType {
+
+    
+
     const form = document.getElementById("newTaskForm");
     if (!(form instanceof HTMLFormElement)) {
       throw new Error();
