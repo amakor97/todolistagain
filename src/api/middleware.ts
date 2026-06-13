@@ -10,7 +10,7 @@ function delay(ms: number): Promise<void> {
 }
 
 export async function fetchData(): Promise<Store | null> {
-  await delay(1000);
+  await delay(500);
   return fetchFromLS();
 }
 

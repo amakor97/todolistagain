@@ -5,7 +5,7 @@ import AddingForm from "./components/AddingForm/AddingForm";
 import type { TaskType } from "./types/TaskType";
 import type { Status } from "./types/Status";
 import Button from "./components/Button/Button";
-import { fetchData } from "./api/middleware";
+import { fetchData, loadData } from "./api/middleware";
 
 const initialState: Store = {
   tasksList: new Map(),
@@ -28,17 +28,24 @@ function App() {
   }, []);
 
   function addTask(newTask: TaskType): void {
+    changeMode("idle");
     setStore((store) => {
       const newTasksList = new Map(store.tasksList);
       newTasksList.set(newTask.id, newTask);
 
-      return {
+            const newStore = {
         ...store,
         tasksList: newTasksList
-      };
+      }
+
+      
+
+      void loadData(newStore);
+
+      return newStore;
     });
 
-    changeMode("idle");
+    
   }
 
   function deleteTask(id: string): void {
@@ -48,15 +55,22 @@ function App() {
       const newTasksList = new Map(store.tasksList);
       newTasksList.delete(id);
 
-      return {
+      const newStore = {
         ...store,
         tasksList: newTasksList
-      };
+      }
+
+      void loadData(newStore);
+
+      return newStore;
     });
   }
 
   function changeStatus(id: string, value: Status): void {
     setStore((store) => {
+
+      
+
       const newTasksList = new Map(store.tasksList);
       const editedTask = newTasksList.get(id);
       if (!editedTask) {
@@ -67,10 +81,15 @@ function App() {
         status: value
       };
       newTasksList.set(id, newTask);
-      return {
+
+      const newStore = {
         ...store,
         tasksList: newTasksList
-      };
+      }
+
+      void loadData(newStore);
+
+      return newStore;
     });
   }
 

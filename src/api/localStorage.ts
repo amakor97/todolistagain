@@ -1,11 +1,10 @@
 import type { Store } from "../types/Store";
-
+import type { TaskType } from "../types/TaskType";
 import { stringedTestStore1 } from "../tests/PoC/store";
 
 const lsKey = "todo";
 
 export function fetchFromLS(): Store | null {
-  window.localStorage.setItem(lsKey, stringedTestStore1);
   const stringedData = window.localStorage.getItem(lsKey);
 
   if (stringedData) {
@@ -27,6 +26,18 @@ export function fetchFromLS(): Store | null {
 }
 
 export function loadToTS(data: unknown): void {
-  const stringedData = JSON.stringify(data);
+  const stringedData = JSON.stringify(
+    data,
+    (
+      key,
+      value: Map<string, TaskType> | Store["appStatus"] | TaskType | null
+    ) => {
+      if (value instanceof Map) {
+        return Object.fromEntries(value);
+      }
+      return value;
+    }
+  );
+
   window.localStorage.setItem(lsKey, stringedData);
 }
