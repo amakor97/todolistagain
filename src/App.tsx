@@ -35,25 +35,19 @@ function App() {
       const newTasksList = new Map(store.tasksList);
       newTasksList.set(newTask.id, newTask);
 
-            const newStore = {
+      const newStore = {
         ...store,
         tasksList: newTasksList,
-      editableTask: null
-      }
-
-      
+        editableTask: null
+      };
 
       void loadData(newStore);
 
       return newStore;
     });
-
-    
   }
 
   function deleteTask(id: string): void {
-    console.log(id);
-
     setStore((store) => {
       const newTasksList = new Map(store.tasksList);
       newTasksList.delete(id);
@@ -61,7 +55,7 @@ function App() {
       const newStore = {
         ...store,
         tasksList: newTasksList
-      }
+      };
 
       void loadData(newStore);
 
@@ -71,9 +65,6 @@ function App() {
 
   function changeStatus(id: string, value: Status): void {
     setStore((store) => {
-
-      
-
       const newTasksList = new Map(store.tasksList);
       const editedTask = newTasksList.get(id);
       if (!editedTask) {
@@ -88,7 +79,7 @@ function App() {
       const newStore = {
         ...store,
         tasksList: newTasksList
-      }
+      };
 
       void loadData(newStore);
 

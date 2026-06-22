@@ -21,9 +21,6 @@ function AddingForm({
 }) {
   console.log(appMode, editableTask);
   function createTask(): TaskType {
-
-    
-
     const form = document.getElementById("newTaskForm");
     if (!(form instanceof HTMLFormElement)) {
       throw new Error();
@@ -44,8 +41,10 @@ function AddingForm({
 
     const nameInput = form.querySelector("input[name='newTaskName']");
     const descInput = form.querySelector("input[name='newTaskDescription']");
-    const statusInput = form.querySelector("input[name='newTaskStatus']:checked");
- console.log(statusInput);
+    const statusInput = form.querySelector(
+      "input[name='newTaskStatus']:checked"
+    );
+    console.log(statusInput);
     if (!(nameInput instanceof HTMLInputElement)) {
       newTask.name = "New task";
     } else {
@@ -59,9 +58,6 @@ function AddingForm({
     }
 
     if (statusInput instanceof HTMLInputElement) {
-
-     
-
       const status = statusInput.value;
       if (isValidStatus(status)) {
         newTask.status = status;

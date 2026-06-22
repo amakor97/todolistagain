@@ -1,6 +1,5 @@
 import type { Store } from "../types/Store";
 import type { TaskType } from "../types/TaskType";
-import { stringedTestStore1 } from "../tests/PoC/store";
 
 const lsKey = "todo";
 
