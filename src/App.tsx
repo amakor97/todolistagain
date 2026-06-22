@@ -1,3 +1,4 @@
+import Styles from "./App.module.css";
 import { useEffect, useState } from "react";
 import type { Store } from "./types/Store";
 import TasksList from "./components/TasksList/TasksList";
@@ -109,7 +110,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className={Styles.app}>
       {store.appStatus === "idle" && (
         <TasksList
           tasks={Array.from(store.tasksList.values())}
