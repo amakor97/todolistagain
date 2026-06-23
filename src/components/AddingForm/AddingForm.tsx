@@ -41,7 +41,7 @@ function AddingForm({
           id: nanoid(),
           name: "",
           description: "",
-          status: "none",
+          status: "awaiting",
           parentTaskId: parentTaskId,
           subTaskIds: []
         };

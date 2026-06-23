@@ -37,7 +37,7 @@ function Task({
           deleteFunc(task.id);
         }}
       />
-      <Button
+      {(task.subTaskIds.length === 0) && <><Button
         btnText="Awaiting"
         handleClick={() => {
           changeFunc(task.id, "awaiting");
@@ -54,7 +54,8 @@ function Task({
         handleClick={() => {
           changeFunc(task.id, "completed");
         }}
-      />
+      /></>}
+      
       <Button
         btnText="Edit"
         handleClick={() => {
