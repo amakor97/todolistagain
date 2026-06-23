@@ -76,6 +76,15 @@ function App() {
   }
 
   function deleteTask(id: string): void {
+    const targetTask = store.tasksList.get(id);
+
+    if (targetTask?.subTaskIds) {
+      for (const id of targetTask.subTaskIds) {
+        deleteTask(id);
+      }
+    }
+
+
     setStore((store) => {
       const newTasksList = new Map(store.tasksList);
       newTasksList.delete(id);
