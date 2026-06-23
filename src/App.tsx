@@ -11,7 +11,8 @@ import { fetchData, loadData } from "./api/middleware";
 const initialState: Store = {
   tasksList: new Map(),
   appStatus: "idle",
-  editableTask: null
+  editableTask: null,
+  addingSubtaskId: null
 };
 
 function App() {
@@ -32,8 +33,20 @@ function App() {
 
   function addTask(newTask: TaskType): void {
     changeMode("idle");
+    console.log(store.addingSubtaskId);
     setStore((store) => {
       const newTasksList = new Map(store.tasksList);
+
+      if (store.addingSubtaskId) {
+        const parentTask = newTasksList.get(store.addingSubtaskId);
+        console.log(parentTask);
+        if (parentTask) {
+          parentTask.subTaskIds.push(newTask.id);
+          newTasksList.set(store.addingSubtaskId, parentTask);  
+        }
+        store.addingSubtaskId = null;
+      }
+
       newTasksList.set(newTask.id, newTask);
 
       const newStore = {
@@ -46,6 +59,20 @@ function App() {
 
       return newStore;
     });
+  }
+
+  function addSubtask(id: string): void {
+
+  //function addSubtask(subtask: TaskType): void {
+    //console.log(subtask);
+    console.log(id);
+    setStore((store) => {
+      return {
+        ...store,
+        addingSubtaskId: id
+      }
+    })
+    changeMode("addingSubtask");
   }
 
   function deleteTask(id: string): void {
@@ -71,6 +98,7 @@ function App() {
       if (!editedTask) {
         throw new Error("There is no task with such id");
       }
+      console.log(editedTask.status);
       const newTask = {
         ...editedTask,
         status: value
@@ -117,13 +145,23 @@ function App() {
           deleteFunc={deleteTask}
           changeFunc={changeStatus}
           editFunc={editTask}
+          addSubtaskFunc={addSubtask}
         />
       )}
-      {(store.appStatus === "adding" || store.appStatus === "editing") && (
+      {(store.appStatus === "adding" ||
+        store.appStatus === "editing" ||
+        store.appStatus === "addingSubtask") && (
         <AddingForm
           submitFunc={addTask}
           editableTask={store.editableTask}
           appMode={store.appStatus}
+          parentTaskId={
+            (store.appStatus === "editing" && store.editableTask)
+              ? store.editableTask.parentTaskId
+              : store.appStatus === "adding"
+                ? null
+                : store.addingSubtaskId
+          }
         />
       )}
 
@@ -134,7 +172,12 @@ function App() {
             changeMode("adding");
           }}
         />
+          
+
       )}
+      <p>m: {store.appStatus}</p>
+      <p>e: {store.editableTask?.id || "null"}</p>
+      <p>a: {store.addingSubtaskId}</p>
     </div>
   );
 }

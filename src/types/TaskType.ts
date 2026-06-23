@@ -5,4 +5,6 @@ export type TaskType = {
   name: string;
   description: string;
   status: Status;
+  parentTaskId: string | null;
+  subTaskIds: string[]
 };

@@ -13,13 +13,16 @@ import { nanoid } from "nanoid";
 function AddingForm({
   submitFunc,
   editableTask,
-  appMode
+  appMode,
+  parentTaskId
 }: {
   submitFunc: handler;
   editableTask?: TaskType | null;
   appMode: Store["appStatus"];
+  parentTaskId: string | null;
 }) {
   console.log(appMode, editableTask);
+  console.log(parentTaskId);
   function createTask(): TaskType {
     const form = document.getElementById("newTaskForm");
     if (!(form instanceof HTMLFormElement)) {
@@ -30,13 +33,17 @@ function AddingForm({
           id: editableTask.id,
           name: editableTask.name,
           description: editableTask.description,
-          status: editableTask.status
+          status: editableTask.status,
+          parentTaskId: editableTask.parentTaskId,
+          subTaskIds: []
         }
       : {
           id: nanoid(),
           name: "",
           description: "",
-          status: "none"
+          status: "none",
+          parentTaskId: parentTaskId,
+          subTaskIds: []
         };
 
     const nameInput = form.querySelector("input[name='newTaskName']");
@@ -89,7 +96,7 @@ function AddingForm({
         handleClick={() => {
           submitFunc(createTask());
         }}
-        btnText={appMode === "adding" ? "Add task" : "Submit changes"}
+        btnText={appMode === "adding" ? "Add task" : appMode === "addingSubtask" ? "Add subtask" : "Submit changes"}
       />
     </form>
   );
