@@ -100,9 +100,7 @@ function App() {
 
   function changeStatus(id: string, value: Status): void {
     const targetTask = store.tasksList.get(id);
-
     console.log("\n");
-
     console.log("child", value);
 
     // add recursion
@@ -160,12 +158,14 @@ function App() {
         tasksList: newTasksList
       };
 
+      void loadData(newStore);
+
       return newStore;
     });
 
     console.log("upload");
 
-    void loadData(store);
+    
   }
 
   function changeMode(mode: Store["appStatus"]): void {
