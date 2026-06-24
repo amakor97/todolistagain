@@ -122,8 +122,6 @@ function App() {
       if (targetTask && targetTask.parentTaskId) {
         const parentTask = newTasksList.get(targetTask.parentTaskId);
 
-        console.log("parent prev", parentTask?.status);
-
         if (parentTask) {
           let allWaitng = true;
           let allCompleted = true;
@@ -147,15 +145,11 @@ function App() {
             }
           }
 
-          console.log(allWaitng, allCompleted);
-
           parentTask.status = allWaitng
             ? "awaiting"
             : allCompleted
               ? "completed"
               : "inProgress";
-
-          console.log("parent current", parentTask.status);
 
           newTasksList.set(parentTask.id, parentTask);
         }
@@ -168,6 +162,8 @@ function App() {
 
       return newStore;
     });
+
+    console.log("upload");
 
     void loadData(store);
   }

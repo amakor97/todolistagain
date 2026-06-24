@@ -23,8 +23,11 @@ function Task({
   editFunc: editTask;
   addSubtaskFunc: addSubtask;
 }) {
+  const status = task.status;
+  
+
   return (
-    <article className={Styles.task}>
+    <article className={`${Styles.task} ${task.status === "awaiting" ? Styles.awaiting : task.status === "inProgress" ? Styles.inProgress : Styles.completed}`}>
       <h2 className={Styles.title}>title: {task.name}</h2>
       <p className={Styles.desc}>desc: {task.description}</p>
       <p className={Styles.status}>status: {task.status}</p>
