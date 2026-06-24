@@ -124,6 +124,8 @@ function App() {
     console.log("\n");
     console.log("child", value);
 
+    let newStore;
+
     // add recursion
 
     setStore((store) => {
@@ -173,10 +175,19 @@ function App() {
 
           console.log("parent current", parentTask.status);
           newTasksList.set(parentTask.id, parentTask);
+
+          newStore = {
+            ...store,
+            tasksList: newTasksList
+          };
+
+          if (parentTask.parentTaskId) {
+            changeGlobalStatus(newStore, parentTask.id, parentTask.status);
+          }
         }
       }
 
-      const newStore = {
+      newStore = {
         ...store,
         tasksList: newTasksList
       };
@@ -189,13 +200,14 @@ function App() {
     console.log("upload");
   }
 
-
   function changeStatus(id: string, value: Status): void {
     const targetTask = store.tasksList.get(id);
     console.log(targetTask);
     console.log(targetTask?.id);
     console.log("\n");
     console.log("child", value);
+
+    let newStore;
 
     // add recursion
 
@@ -246,10 +258,19 @@ function App() {
 
           console.log("parent current", parentTask.status);
           newTasksList.set(parentTask.id, parentTask);
+
+          newStore = {
+            ...store,
+            tasksList: newTasksList
+          };
+
+          if (parentTask.parentTaskId) {
+            changeGlobalStatus(newStore, parentTask.id, parentTask.status);
+          }
         }
       }
 
-      const newStore = {
+      newStore = {
         ...store,
         tasksList: newTasksList
       };
