@@ -1,9 +1,13 @@
 import type { TaskType } from "../../types/TaskType";
+import { useContext } from "react";
+
+import type { Store } from "../../types/Store";
 
 import Styles from "./Task.module.css";
 
 import Button from "../Button/Button";
 import type { Status } from "../../types/Status";
+import { AppContext } from "../../context";
 
 type deleteTask = (id: string) => void;
 type changeStatus = (id: string, value: Status) => void;
@@ -23,8 +27,8 @@ function Task({
   editFunc: editTask;
   addSubtaskFunc: addSubtask;
 }) {
-  const status = task.status;
   
+  const store: Store = useContext(AppContext);
 
   return (
     <article className={`${Styles.task} ${task.status === "awaiting" ? Styles.awaiting : task.status === "inProgress" ? Styles.inProgress : Styles.completed}`}>
@@ -72,6 +76,26 @@ function Task({
           addSubtaskFunc(task.id);
         }}
       />
+
+      {
+        task.subTaskIds.map((id) => {
+
+          const subtask = store.tasksList.get(id)
+
+          return subtask ? (
+            <Task
+              task={subtask}
+              deleteFunc={deleteFunc}
+              changeFunc={changeFunc}
+              editFunc={editFunc}
+              addSubtaskFunc={addSubtaskFunc}
+              key={subtask.id}
+            />)
+          : null;
+})
+        }
+      
+
     </article>
   );
 }

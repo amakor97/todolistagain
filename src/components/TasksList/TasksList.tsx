@@ -24,7 +24,7 @@ function TasksList({
   return (
     <section>
       {tasks.map((task) => {
-        return (
+        return (task.parentTaskId === null) &&(
           <Task
             task={task}
             deleteFunc={deleteFunc}

@@ -7,6 +7,7 @@ import type { TaskType } from "./types/TaskType";
 import type { Status } from "./types/Status";
 import Button from "./components/Button/Button";
 import { fetchData, loadData } from "./api/middleware";
+import { AppContext } from "./context";
 
 const initialState: Store = {
   tasksList: new Map(),
@@ -15,8 +16,12 @@ const initialState: Store = {
   addingSubtaskId: null
 };
 
+
+
 function App() {
   const [store, setStore] = useState<Store>(initialState);
+
+
 
   useEffect(() => {
     async function setData(): Promise<void> {
@@ -190,6 +195,7 @@ function App() {
   }
 
   return (
+    <AppContext.Provider value={store}>
     <div className={Styles.app}>
       {store.appStatus === "idle" && (
         <TasksList
@@ -229,6 +235,7 @@ function App() {
       <p>e: {store.editableTask?.id || "null"}</p>
       <p>a: {store.addingSubtaskId}</p>
     </div>
+    </AppContext.Provider>
   );
 }
 
