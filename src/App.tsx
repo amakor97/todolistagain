@@ -90,20 +90,43 @@ function App() {
   }
 
   function deleteTask(id: string): void {
-    const targetTask = store.tasksList.get(id);
+    const newTasksList = new Map(store.tasksList);
+    const targetTask = newTasksList.get(id);
 
     if (targetTask?.subTaskIds) {
       for (const id of targetTask.subTaskIds) {
         deleteTask(id);
+
+        console.log(targetTask.subTaskIds);
+
         targetTask.subTaskIds = targetTask.subTaskIds.slice(
           targetTask.subTaskIds.indexOf(id),
           1
         );
+
+        console.log(targetTask.subTaskIds);
       }
     }
 
+    if (targetTask && targetTask.parentTaskId !== null) {
+      let parentTask = store.tasksList.get(targetTask.parentTaskId);
+
+      console.log("l");
+
+      if (parentTask) {
+        parentTask = {
+          ...parentTask,
+          subTaskIds: parentTask.subTaskIds.filter((subId) => subId !== id)
+        };
+
+
+        newTasksList.set(targetTask.parentTaskId, parentTask);
+      }
+
+      
+    }
+
     setStore((store) => {
-      const newTasksList = new Map(store.tasksList);
       newTasksList.delete(id);
 
       const newStore = {
