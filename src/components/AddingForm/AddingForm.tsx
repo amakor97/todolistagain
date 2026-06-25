@@ -21,8 +21,6 @@ function AddingForm({
   appMode: Store["appStatus"];
   parentTaskId: string | null;
 }) {
-  console.log(appMode, editableTask);
-  console.log(parentTaskId);
   function createTask(): TaskType {
     const form = document.getElementById("newTaskForm");
     if (!(form instanceof HTMLFormElement)) {
@@ -51,7 +49,6 @@ function AddingForm({
     const statusInput = form.querySelector(
       "input[name='newTaskStatus']:checked"
     );
-    console.log(statusInput);
     if (!(nameInput instanceof HTMLInputElement)) {
       newTask.name = "New task";
     } else {
@@ -89,14 +86,23 @@ function AddingForm({
         placeholder="Description"
         name="newTaskDescription"
       ></textarea>
+      <p>awaiting</p>
       <input type="radio" name="newTaskStatus" value="awaiting" />
+      <p>imProgress</p>
       <input type="radio" name="newTaskStatus" value="inProgress" />
+      <p>completed</p>
       <input type="radio" name="newTaskStatus" value="completed" />
       <Button
         handleClick={() => {
           submitFunc(createTask());
         }}
-        btnText={appMode === "adding" ? "Add task" : appMode === "addingSubtask" ? "Add subtask" : "Submit changes"}
+        btnText={
+          appMode === "adding"
+            ? "Add task"
+            : appMode === "addingSubtask"
+              ? "Add subtask"
+              : "Submit changes"
+        }
       />
     </form>
   );
