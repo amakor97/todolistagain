@@ -1,7 +1,12 @@
 .task {
+  margin-bottom: 8px;
   padding: 8px;
 
   border: 1px solid black;
+}
+
+.task:last-child {
+  margin-bottom: 0;
 }
 
 .title {
@@ -14,6 +19,10 @@
 
 .status {
   margin: 0;
+}
+
+.control {
+  margin-bottom: 8px;
 }
 
 .awaiting {
