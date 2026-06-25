@@ -1,3 +1,5 @@
+import Styles from "./Button.module.css";
+
 type handler = (...args: unknown[]) => unknown;
 
 function Button({
@@ -8,7 +10,7 @@ function Button({
   btnText?: string;
 }) {
   return (
-    <button onClick={handleClick} type="button">
+    <button className={Styles.button} onClick={handleClick} type="button">
       {btnText ?? "Button"}
     </button>
   );
