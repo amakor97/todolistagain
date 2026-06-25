@@ -8,13 +8,7 @@ import type { Status } from "./types/Status";
 import Button from "./components/Button/Button";
 import { fetchData, loadData } from "./api/middleware";
 import { AppContext } from "./context";
-
-const initialState: Store = {
-  tasksList: new Map(),
-  appStatus: "idle",
-  editableTask: null,
-  addingSubtaskId: null
-};
+import { initialState } from "./defaultValues";
 
 function App() {
   const [store, setStore] = useState<Store>(initialState);
