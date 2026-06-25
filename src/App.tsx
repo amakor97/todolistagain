@@ -33,10 +33,6 @@ function App() {
   }, [store]);
 
   function addTask(newTask: TaskType): void {
-    changeMode("idle");
-
-    console.log("gg");
-
     setStore((store) => {
       const newTasksList = new Map(store.tasksList);
 
@@ -50,8 +46,6 @@ function App() {
       }
 
       newTasksList.set(newTask.id, newTask);
-
-      console.log(newTask.id, newTask.status);
 
       const newStore = {
         ...store,
@@ -68,12 +62,6 @@ function App() {
   }
 
   function addSubtask(id: string): void {
-    //function addSubtask(subtask: TaskType): void {
-    //console.log(subtask);
-
-    console.log("jhh");
-
-    console.log(id);
     setStore((store) => {
       return {
         ...store,
@@ -91,21 +79,15 @@ function App() {
       for (const id of targetTask.subTaskIds) {
         deleteTask(id);
 
-        console.log(targetTask.subTaskIds);
-
         targetTask.subTaskIds = targetTask.subTaskIds.slice(
           targetTask.subTaskIds.indexOf(id),
           1
         );
-
-        console.log(targetTask.subTaskIds);
       }
     }
 
     if (targetTask && targetTask.parentTaskId !== null) {
       let parentTask = store.tasksList.get(targetTask.parentTaskId);
-
-      console.log("l");
 
       if (parentTask) {
         parentTask = {
@@ -113,11 +95,8 @@ function App() {
           subTaskIds: parentTask.subTaskIds.filter((subId) => subId !== id)
         };
 
-
         newTasksList.set(targetTask.parentTaskId, parentTask);
       }
-
-      
     }
 
     setStore((store) => {
@@ -136,14 +115,7 @@ function App() {
 
   function changeGlobalStatus(store: Store, id: string, value: Status): void {
     const targetTask = store.tasksList.get(id);
-    console.log(targetTask);
-    console.log(targetTask?.id);
-    console.log("\n");
-    console.log("child", value);
-
     let newStore;
-
-    // add recursion
 
     setStore((store) => {
       const newTasksList = new Map(store.tasksList);
@@ -156,9 +128,7 @@ function App() {
         status: value
       };
       newTasksList.set(id, newTask);
-      console.log(targetTask);
       if (targetTask && targetTask.parentTaskId) {
-        console.log("yyyy");
         const parentTask = newTasksList.get(targetTask.parentTaskId);
 
         if (parentTask) {
@@ -167,19 +137,16 @@ function App() {
 
           for (const id of parentTask.subTaskIds) {
             const subtask = newTasksList.get(id);
-            console.log(subtask);
             if (
               subtask?.status === "awaiting" ||
               subtask?.status === "inProgress"
             ) {
-              console.log("NOT C");
               allCompleted = false;
             }
             if (
               subtask?.status === "completed" ||
               subtask?.status === "inProgress"
             ) {
-              console.log("NOT W");
               allWaitng = false;
             }
           }
@@ -190,7 +157,6 @@ function App() {
               ? "completed"
               : "inProgress";
 
-          console.log("parent current", parentTask.status);
           newTasksList.set(parentTask.id, parentTask);
 
           newStore = {
@@ -213,20 +179,11 @@ function App() {
 
       return newStore;
     });
-
-    console.log("upload");
   }
 
   function changeStatus(id: string, value: Status): void {
     const targetTask = store.tasksList.get(id);
-    console.log(targetTask);
-    console.log(targetTask?.id);
-    console.log("\n");
-    console.log("child", value);
-
     let newStore;
-
-    // add recursion
 
     setStore((store) => {
       const newTasksList = new Map(store.tasksList);
@@ -239,9 +196,8 @@ function App() {
         status: value
       };
       newTasksList.set(id, newTask);
-      console.log(targetTask);
+
       if (targetTask && targetTask.parentTaskId) {
-        console.log("yyyy");
         const parentTask = newTasksList.get(targetTask.parentTaskId);
 
         if (parentTask) {
@@ -250,19 +206,16 @@ function App() {
 
           for (const id of parentTask.subTaskIds) {
             const subtask = newTasksList.get(id);
-            console.log(subtask);
             if (
               subtask?.status === "awaiting" ||
               subtask?.status === "inProgress"
             ) {
-              console.log("NOT C");
               allCompleted = false;
             }
             if (
               subtask?.status === "completed" ||
               subtask?.status === "inProgress"
             ) {
-              console.log("NOT W");
               allWaitng = false;
             }
           }
@@ -273,7 +226,6 @@ function App() {
               ? "completed"
               : "inProgress";
 
-          console.log("parent current", parentTask.status);
           newTasksList.set(parentTask.id, parentTask);
 
           newStore = {
@@ -296,8 +248,6 @@ function App() {
 
       return newStore;
     });
-
-    console.log("upload");
   }
 
   function changeMode(mode: Store["appStatus"]): void {
@@ -358,9 +308,9 @@ function App() {
             }}
           />
         )}
-        <p>m: {store.appStatus}</p>
-        <p>e: {store.editableTask?.id || "null"}</p>
-        <p>a: {store.addingSubtaskId}</p>
+        <p>mode: {store.appStatus}</p>
+        <p>editing id: {store.editableTask?.id || "null"}</p>
+        <p>adding for id: {store.addingSubtaskId || "null"}</p>
       </div>
     </AppContext.Provider>
   );
